@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
@@ -30,7 +31,7 @@ public class SecondActivity extends AppCompatActivity {
 
     String lvl, method, maxRange, equa, timer;
     Integer randNum, randMul, time;
-    Double answer, ans;
+    Double answer, ans, sTime;
 
     Question questionObj;
 
@@ -63,10 +64,10 @@ public class SecondActivity extends AppCompatActivity {
         maxRange = intentReceived.getStringExtra("max");
         timer = intentReceived.getStringExtra("timer");
 
-        time = Integer.parseInt(timer);
+        sTime = Double.parseDouble(timer);
 
 
-        if(time == 0){
+        if(sTime == 0){
 
             if(lvl.equals("Beginner")){
 
@@ -152,7 +153,8 @@ public class SecondActivity extends AppCompatActivity {
 
         }else{
 
-            time = time*60000;
+            sTime = sTime* Double.parseDouble("60000");
+            time = sTime.intValue();
 
         }
 
@@ -170,8 +172,6 @@ public class SecondActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                tvScore.setText("Current Score: " + score + "/10");
-                tvNum.setText("Q" + questionNumber);
                 btnBack.setVisibility(View.VISIBLE);
                 btnSub.setVisibility(View.GONE);
                 etAns.setVisibility(View.GONE);
@@ -179,7 +179,7 @@ public class SecondActivity extends AppCompatActivity {
                 tvScore.setVisibility(View.GONE);
                 tvQues.setTextSize(TypedValue.COMPLEX_UNIT_PX, 40);
                 tvQues.setTypeface(null, Typeface.BOLD);
-                tvQues.setText("Congratulation, You have completed all 10 Question\nYou can go Back to set a different Level Of Difficulty\nYour total Score is " + score + "/10");
+                tvQues.setText("Congratulation, You have completed " + (questionNumber - 1) + " Question\nYou can go Back to set a different Level Of Difficulty\nYour total Score is " + score + "/10");
                 tvTime.setText("Times Up");
             }
 
@@ -277,8 +277,6 @@ public class SecondActivity extends AppCompatActivity {
                     setView();
                 } else if (questionNumber == 10) {
                     timer.cancel();
-                    tvScore.setText("Current Score: " + score + "/10");
-                    tvNum.setText("Q" + questionNumber);
                     btnBack.setVisibility(View.VISIBLE);
                     btnSub.setVisibility(View.GONE);
                     etAns.setVisibility(View.GONE);
