@@ -160,9 +160,12 @@ public class SecondActivity extends AppCompatActivity {
 
             public void onTick(long millisUntilFinished) {
 
-                String text = String.format(Locale.getDefault(), "Time Remaining: %02d min and %02d sec",
-                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) % 60,
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60);
+                String text = String.format(Locale.getDefault(), "Time Remaining: %02d hour %02d min and %02d sec",
+                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) -
+                                TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)), // The change is in this line
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
                 tvTime.setText(text);
             }
 
