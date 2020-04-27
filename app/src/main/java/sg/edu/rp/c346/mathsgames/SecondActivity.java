@@ -29,8 +29,8 @@ public class SecondActivity extends AppCompatActivity {
     Button btnSub, btnBack;
     EditText etAns;
 
-    String lvl, method, maxRange, equa, timer;
-    Integer randNum, randMul, time;
+    String lvl, method, maxRange, equa, timer, product;
+    Integer randNum, randMul, time, randPro, randRand;
     Double answer, ans, sTime;
 
     Question questionObj;
@@ -39,6 +39,8 @@ public class SecondActivity extends AppCompatActivity {
     int questionNumber = 0;
 
     ArrayList<Question> questionList = new ArrayList<Question>();
+    ArrayList<String> products = new ArrayList<String>();
+    ArrayList<Integer> randTimer = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +68,17 @@ public class SecondActivity extends AppCompatActivity {
 
         sTime = Double.parseDouble(timer);
 
+        randTimer.add(1200000);
+        randTimer.add(900000);
+        randTimer.add(600000);
+        randTimer.add(300000);
+        randRand = new Random().nextInt(4 - 0) + 0;
 
-        if(sTime == 0){
+        if (method.equals("Random") && lvl.equals("Random")) {
+
+            time = randTimer.get(randRand);
+
+        }else if(sTime == 0){
 
             if(lvl.equals("Beginner")){
 
@@ -84,6 +95,10 @@ public class SecondActivity extends AppCompatActivity {
                     time = 900000;
 
                 } else if (method.equals("Division")) {
+
+                    time = 900000;
+
+                } else if (method.equals("Random")) {
 
                     time = 900000;
 
@@ -107,6 +122,10 @@ public class SecondActivity extends AppCompatActivity {
 
                     time = 600000;
 
+                } else if (method.equals("Random")) {
+
+                    time = 600000;
+
                 }
 
             }else if(lvl.equals("Advanced")){
@@ -124,6 +143,10 @@ public class SecondActivity extends AppCompatActivity {
                     time = 300000;
 
                 } else if (method.equals("Division")) {
+
+                    time = 300000;
+
+                } else if (method.equals("Random")) {
 
                     time = 300000;
 
@@ -165,7 +188,7 @@ public class SecondActivity extends AppCompatActivity {
                 String text = String.format(Locale.getDefault(), "Time Remaining: %02d hour %02d min and %02d sec",
                         TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
                         TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) -
-                                TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)), // The change is in this line
+                                TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
                 tvTime.setText(text);
@@ -188,10 +211,16 @@ public class SecondActivity extends AppCompatActivity {
         int min = 0;
         int max = Integer.parseInt(maxRange) + 1;
 
+        products.add("+");
+        products.add("-");
+        products.add("x");
+        products.add("÷");
+
         for (int i = 1; i <= 10; i++) {
 
             randMul = new Random().nextInt(max - min) + min;
             randNum = new Random().nextInt(max - min) + min;
+            randPro = new Random().nextInt(4 - 0) + 0;
 
             if (method.equals("Addition")) {
                 equa = randNum + " + " + randMul + " = ";
@@ -210,6 +239,25 @@ public class SecondActivity extends AppCompatActivity {
                 equa = randNum + " ÷ " + randMul + " = ";
                 answer = (double) randNum / randMul;
                 answer = Double.parseDouble(String.format("%.2f", answer));
+
+            } else if (method.equals("Random")) {
+                product = products.get(randPro);
+
+                if(product.equals("+")){
+                    equa = randNum + " + " + randMul + " = ";
+                    answer = (double) randNum + randMul;
+                }else if(product.equals("-")){
+                    equa = randNum + " - " + randMul + " = ";
+                    answer = (double) randNum - randMul;
+                }else if(product.equals("x")){
+                    equa = randNum + " x " + randMul + " = ";
+                    answer = (double) randNum * randMul;
+                }else if(product.equals("÷")){
+                    randMul = new Random().nextInt(max - 1) + 1;
+                    equa = randNum + " ÷ " + randMul + " = ";
+                    answer = (double) randNum / randMul;
+                    answer = Double.parseDouble(String.format("%.2f", answer));
+                }
 
             }
 

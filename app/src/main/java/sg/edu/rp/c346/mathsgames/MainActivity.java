@@ -25,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
     SeekBar rSB;
     Button conBtn;
 
-    String rbtext;
-    Integer lvl;
+    String rbtext, rbtextDif;
+    Integer lvl, cal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
         RBlvl = findViewById(lvl);
         rbtext = RBlvl.getText().toString();
 
+        cal = calRG.getCheckedRadioButtonId();
+        RBcal = findViewById(cal);
+        rbtextDif = RBcal.getText().toString();
+
         if(rbtext.equals("Beginner")){
             rSB.setVisibility(View.VISIBLE);
             tvSB.setVisibility(View.VISIBLE);
@@ -72,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
             etRandLimit.setVisibility(View.VISIBLE);
         }
 
+        if (rbtext.equals("Random") && rbtextDif.equals("Random")){
+            Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_SHORT).show();
+        }
+
         lvlRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -79,6 +87,10 @@ public class MainActivity extends AppCompatActivity {
                 lvl = lvlRG.getCheckedRadioButtonId();
                 RBlvl = findViewById(lvl);
                 rbtext = RBlvl.getText().toString();
+
+                cal = calRG.getCheckedRadioButtonId();
+                RBcal = findViewById(cal);
+                rbtextDif = RBcal.getText().toString();
 
                 if(rbtext.equals("Beginner")){
                     rSB.setVisibility(View.VISIBLE);
@@ -100,6 +112,26 @@ public class MainActivity extends AppCompatActivity {
                     tvSB.setVisibility(View.GONE);
                     etRandLimit.setVisibility(View.VISIBLE);
                 }
+
+                if (rbtext.equals("Random") && rbtextDif.equals("Random")){
+                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        calRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+
+                cal = calRG.getCheckedRadioButtonId();
+                RBcal = findViewById(cal);
+                rbtextDif = RBcal.getText().toString();
+
+                if (rbtext.equals("Random") && rbtextDif.equals("Random")){
+                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -130,11 +162,11 @@ public class MainActivity extends AppCompatActivity {
 
                 String timer, rbLvlText, rbCalText, selRange;
 
-                Integer lvl = lvlRG.getCheckedRadioButtonId();
+                lvl = lvlRG.getCheckedRadioButtonId();
                 RBlvl = findViewById(lvl);
                 rbLvlText = RBlvl.getText().toString();
 
-                Integer cal = calRG.getCheckedRadioButtonId();
+                cal = calRG.getCheckedRadioButtonId();
                 RBcal = findViewById(cal);
                 rbCalText = RBcal.getText().toString();
 
@@ -166,10 +198,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-
         lvl = lvlRG.getCheckedRadioButtonId();
         RBlvl = findViewById(lvl);
         rbtext = RBlvl.getText().toString();
+
+        cal = calRG.getCheckedRadioButtonId();
+        RBcal = findViewById(cal);
+        rbtextDif = RBcal.getText().toString();
 
         if(rbtext.equals("Beginner")){
             rSB.setVisibility(View.VISIBLE);
@@ -192,6 +227,25 @@ public class MainActivity extends AppCompatActivity {
             etRandLimit.setVisibility(View.VISIBLE);
         }
 
+        if (rbtext.equals("Random") && rbtextDif.equals("Random")){
+            Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_SHORT).show();
+        }
+
+        calRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+
+                cal = calRG.getCheckedRadioButtonId();
+                RBcal = findViewById(cal);
+                rbtextDif = RBcal.getText().toString();
+
+                if (rbtext.equals("Random") && rbtextDif.equals("Random")){
+                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
         lvlRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -199,6 +253,10 @@ public class MainActivity extends AppCompatActivity {
                 lvl = lvlRG.getCheckedRadioButtonId();
                 RBlvl = findViewById(lvl);
                 rbtext = RBlvl.getText().toString();
+
+                cal = calRG.getCheckedRadioButtonId();
+                RBcal = findViewById(cal);
+                rbtextDif = RBcal.getText().toString();
 
                 if(rbtext.equals("Beginner")){
                     rSB.setVisibility(View.VISIBLE);
@@ -220,6 +278,11 @@ public class MainActivity extends AppCompatActivity {
                     tvSB.setVisibility(View.GONE);
                     etRandLimit.setVisibility(View.VISIBLE);
                 }
+
+                if (rbtext.equals("Random") && rbtextDif.equals("Random")){
+                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -234,6 +297,10 @@ public class MainActivity extends AppCompatActivity {
         RBlvl = findViewById(lvl);
         rbtext = RBlvl.getText().toString();
 
+        cal = calRG.getCheckedRadioButtonId();
+        RBcal = findViewById(cal);
+        rbtextDif = RBcal.getText().toString();
+
         if(rbtext.equals("Beginner")){
             rSB.setVisibility(View.VISIBLE);
             tvSB.setVisibility(View.VISIBLE);
@@ -255,6 +322,25 @@ public class MainActivity extends AppCompatActivity {
             etRandLimit.setVisibility(View.VISIBLE);
         }
 
+        if (rbtext.equals("Random") && rbtextDif.equals("Random")){
+            Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_SHORT).show();
+        }
+
+        calRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+
+                cal = calRG.getCheckedRadioButtonId();
+                RBcal = findViewById(cal);
+                rbtextDif = RBcal.getText().toString();
+
+                if (rbtext.equals("Random") && rbtextDif.equals("Random")){
+                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
         lvlRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -262,6 +348,10 @@ public class MainActivity extends AppCompatActivity {
                 lvl = lvlRG.getCheckedRadioButtonId();
                 RBlvl = findViewById(lvl);
                 rbtext = RBlvl.getText().toString();
+
+                cal = calRG.getCheckedRadioButtonId();
+                RBcal = findViewById(cal);
+                rbtextDif = RBcal.getText().toString();
 
                 if(rbtext.equals("Beginner")){
                     rSB.setVisibility(View.VISIBLE);
@@ -283,6 +373,11 @@ public class MainActivity extends AppCompatActivity {
                     tvSB.setVisibility(View.GONE);
                     etRandLimit.setVisibility(View.VISIBLE);
                 }
+
+                if (rbtext.equals("Random") && rbtextDif.equals("Random")){
+                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
