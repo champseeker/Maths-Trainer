@@ -19,7 +19,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     TextView tvSB, tvTimer;
-    EditText etTimer;
+    EditText etTimer, etRandLimit;
     RadioGroup lvlRG, calRG;
     RadioButton RBlvl, RBcal;
     SeekBar rSB;
@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         lvlRG = findViewById(R.id.RBlvl);
         calRG = findViewById(R.id.RBcal);
         rSB = findViewById(R.id.sbRange);
+        etRandLimit = findViewById(R.id.etRandLimit);
 
         rSB.refreshDrawableState();
 
@@ -51,13 +52,24 @@ public class MainActivity extends AppCompatActivity {
         rbtext = RBlvl.getText().toString();
 
         if(rbtext.equals("Beginner")){
+            rSB.setVisibility(View.VISIBLE);
+            tvSB.setVisibility(View.VISIBLE);
+            etRandLimit.setVisibility(View.GONE);
             rSB.setMax(10);
         }else if(rbtext.equals("Intermediate")){
+            rSB.setVisibility(View.VISIBLE);
+            tvSB.setVisibility(View.VISIBLE);
+            etRandLimit.setVisibility(View.GONE);
             rSB.setMax(15);
         }else if(rbtext.equals("Advanced")){
+            rSB.setVisibility(View.VISIBLE);
+            tvSB.setVisibility(View.VISIBLE);
+            etRandLimit.setVisibility(View.GONE);
             rSB.setMax(20);
         }else if(rbtext.equals("Random")){
-            rSB.setMax(100);
+            rSB.setVisibility(View.GONE);
+            tvSB.setVisibility(View.GONE);
+            etRandLimit.setVisibility(View.VISIBLE);
         }
 
         lvlRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -69,13 +81,24 @@ public class MainActivity extends AppCompatActivity {
                 rbtext = RBlvl.getText().toString();
 
                 if(rbtext.equals("Beginner")){
+                    rSB.setVisibility(View.VISIBLE);
+                    tvSB.setVisibility(View.VISIBLE);
+                    etRandLimit.setVisibility(View.GONE);
                     rSB.setMax(10);
                 }else if(rbtext.equals("Intermediate")){
+                    rSB.setVisibility(View.VISIBLE);
+                    tvSB.setVisibility(View.VISIBLE);
+                    etRandLimit.setVisibility(View.GONE);
                     rSB.setMax(15);
                 }else if(rbtext.equals("Advanced")){
+                    rSB.setVisibility(View.VISIBLE);
+                    tvSB.setVisibility(View.VISIBLE);
+                    etRandLimit.setVisibility(View.GONE);
                     rSB.setMax(20);
                 }else if(rbtext.equals("Random")){
-                    rSB.setMax(100);
+                    rSB.setVisibility(View.GONE);
+                    tvSB.setVisibility(View.GONE);
+                    etRandLimit.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -115,7 +138,11 @@ public class MainActivity extends AppCompatActivity {
                 RBcal = findViewById(cal);
                 rbCalText = RBcal.getText().toString();
 
-                selRange = tvSB.getText().toString();
+                if (etRandLimit.getVisibility() == View.VISIBLE){
+                    selRange = etRandLimit.getText().toString();
+                }else{
+                    selRange = tvSB.getText().toString();
+                }
 
                 if ((etTimer.getText().toString()).equals("")){
                     timer = "0";
@@ -145,13 +172,24 @@ public class MainActivity extends AppCompatActivity {
         rbtext = RBlvl.getText().toString();
 
         if(rbtext.equals("Beginner")){
+            rSB.setVisibility(View.VISIBLE);
+            tvSB.setVisibility(View.VISIBLE);
+            etRandLimit.setVisibility(View.GONE);
             rSB.setMax(10);
         }else if(rbtext.equals("Intermediate")){
+            rSB.setVisibility(View.VISIBLE);
+            tvSB.setVisibility(View.VISIBLE);
+            etRandLimit.setVisibility(View.GONE);
             rSB.setMax(15);
         }else if(rbtext.equals("Advanced")){
+            rSB.setVisibility(View.VISIBLE);
+            tvSB.setVisibility(View.VISIBLE);
+            etRandLimit.setVisibility(View.GONE);
             rSB.setMax(20);
         }else if(rbtext.equals("Random")){
-            rSB.setMax(100);
+            rSB.setVisibility(View.GONE);
+            tvSB.setVisibility(View.GONE);
+            etRandLimit.setVisibility(View.VISIBLE);
         }
 
         lvlRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -163,13 +201,24 @@ public class MainActivity extends AppCompatActivity {
                 rbtext = RBlvl.getText().toString();
 
                 if(rbtext.equals("Beginner")){
+                    rSB.setVisibility(View.VISIBLE);
+                    tvSB.setVisibility(View.VISIBLE);
+                    etRandLimit.setVisibility(View.GONE);
                     rSB.setMax(10);
                 }else if(rbtext.equals("Intermediate")){
+                    rSB.setVisibility(View.VISIBLE);
+                    tvSB.setVisibility(View.VISIBLE);
+                    etRandLimit.setVisibility(View.GONE);
                     rSB.setMax(15);
                 }else if(rbtext.equals("Advanced")){
+                    rSB.setVisibility(View.VISIBLE);
+                    tvSB.setVisibility(View.VISIBLE);
+                    etRandLimit.setVisibility(View.GONE);
                     rSB.setMax(20);
                 }else if(rbtext.equals("Random")){
-                    rSB.setMax(100);
+                    rSB.setVisibility(View.GONE);
+                    tvSB.setVisibility(View.GONE);
+                    etRandLimit.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -186,13 +235,24 @@ public class MainActivity extends AppCompatActivity {
         rbtext = RBlvl.getText().toString();
 
         if(rbtext.equals("Beginner")){
+            rSB.setVisibility(View.VISIBLE);
+            tvSB.setVisibility(View.VISIBLE);
+            etRandLimit.setVisibility(View.GONE);
             rSB.setMax(10);
         }else if(rbtext.equals("Intermediate")){
+            rSB.setVisibility(View.VISIBLE);
+            tvSB.setVisibility(View.VISIBLE);
+            etRandLimit.setVisibility(View.GONE);
             rSB.setMax(15);
         }else if(rbtext.equals("Advanced")){
+            rSB.setVisibility(View.VISIBLE);
+            tvSB.setVisibility(View.VISIBLE);
+            etRandLimit.setVisibility(View.GONE);
             rSB.setMax(20);
         }else if(rbtext.equals("Random")){
-            rSB.setMax(100);
+            rSB.setVisibility(View.GONE);
+            tvSB.setVisibility(View.GONE);
+            etRandLimit.setVisibility(View.VISIBLE);
         }
 
         lvlRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -204,13 +264,24 @@ public class MainActivity extends AppCompatActivity {
                 rbtext = RBlvl.getText().toString();
 
                 if(rbtext.equals("Beginner")){
+                    rSB.setVisibility(View.VISIBLE);
+                    tvSB.setVisibility(View.VISIBLE);
+                    etRandLimit.setVisibility(View.GONE);
                     rSB.setMax(10);
                 }else if(rbtext.equals("Intermediate")){
+                    rSB.setVisibility(View.VISIBLE);
+                    tvSB.setVisibility(View.VISIBLE);
+                    etRandLimit.setVisibility(View.GONE);
                     rSB.setMax(15);
                 }else if(rbtext.equals("Advanced")){
+                    rSB.setVisibility(View.VISIBLE);
+                    tvSB.setVisibility(View.VISIBLE);
+                    etRandLimit.setVisibility(View.GONE);
                     rSB.setMax(20);
                 }else if(rbtext.equals("Random")){
-                    rSB.setMax(100);
+                    rSB.setVisibility(View.GONE);
+                    tvSB.setVisibility(View.GONE);
+                    etRandLimit.setVisibility(View.VISIBLE);
                 }
             }
         });
