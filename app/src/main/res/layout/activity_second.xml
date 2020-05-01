@@ -71,7 +71,7 @@
                     android:id="@+id/etAns"
                     android:layout_width="300px"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
+                    android:inputType="numberSigned"
                     android:ems="10"
                     android:gravity="center"
                     android:textAlignment="center" />

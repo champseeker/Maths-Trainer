@@ -3,6 +3,7 @@ package sg.edu.rp.c346.mathsgames;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -11,13 +12,11 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
@@ -29,7 +28,7 @@ public class SecondActivity extends AppCompatActivity {
     Button btnSub, btnBack;
     EditText etAns;
 
-    String lvl, method, maxRange, equa, timer, product;
+    String lvl, method, maxRange, equa, timer, product, category;
     Integer randNum, randMul, time, randPro, randRand;
     Double answer, ans, sTime;
 
@@ -49,6 +48,9 @@ public class SecondActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_second);
+
+        SharedPreferences setLatestSP = getSharedPreferences("PrevScore", MODE_PRIVATE);
+        final SharedPreferences.Editor myEdit  = setLatestSP.edit();
 
         tvTime = findViewById(R.id.tvTime);
         tvScore = findViewById(R.id.tvScore);
@@ -181,6 +183,10 @@ public class SecondActivity extends AppCompatActivity {
 
         }
 
+
+        category = lvl + " - " + method;
+        Log.i("TAG", "onCreate: lmao " + category);
+
         final CountDownTimer timer = new CountDownTimer(time, 1) {
 
             public void onTick(long millisUntilFinished) {
@@ -192,6 +198,15 @@ public class SecondActivity extends AppCompatActivity {
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
                 tvTime.setText(text);
+
+                String sText = String.format(Locale.getDefault(), "%02d hour, %02d min and %02d sec",
+                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) -
+                                TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
+                myEdit.putString("time", sText);
+                myEdit.commit();
             }
 
             public void onFinish() {
@@ -204,6 +219,9 @@ public class SecondActivity extends AppCompatActivity {
                 tvQues.setTypeface(null, Typeface.BOLD);
                 tvQues.setText("Congratulation, You have completed " + (questionNumber - 1) + " Question\nYou can go Back to set a different Level Of Difficulty\nYour total Score is " + score + "/10");
                 tvTime.setText("Times Up");
+                myEdit.putInt("score", score);
+                myEdit.putString("category", category);
+                myEdit.commit();
             }
 
         }.start();
@@ -333,6 +351,9 @@ public class SecondActivity extends AppCompatActivity {
                     tvQues.setTextSize(TypedValue.COMPLEX_UNIT_PX, 40);
                     tvQues.setTypeface(null, Typeface.BOLD);
                     tvQues.setText("Congratulation, You have completed all 10 Question\nYou can go Back to set a different Level Of Difficulty\nYour total Score is " + score + "/10");
+                    myEdit.putInt("score", score);
+                    myEdit.putString("category", category);
+                    myEdit.commit();
                 }
 
             }

@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Maths Games</string>
     <string name="firColumn">Pick a level of difficulty</string>
-    <string name="info">Beginner = 0 - 10\nIntermediate = 0 - 15\n Advanced = 0 - 20\n Random = 0 - 100</string>
+    <string name="info">Beginner = 0 - 10\n Intermediate = 0 - 15\n Advanced = 0 - 20\n Random = 0 - 100</string>
     <string name="secColumn">Pick a calculation method</string>
     <string name="thrColumn">Fill in the range</string>
     <string name="range">0 - </string>
+    <string name="prevScore">Previous Score: </string>
 </resources>

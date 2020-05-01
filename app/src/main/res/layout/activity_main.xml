@@ -17,6 +17,17 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tvPastScore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="40px"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_margin="20px"
+                android:text="@string/prevScore"/>
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="100px"

@@ -3,6 +3,7 @@ package sg.edu.rp.c346.mathsgames;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,15 +19,15 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView tvSB, tvTimer;
+    TextView tvSB, tvTimer, tvPrev;
     EditText etTimer, etRandLimit;
     RadioGroup lvlRG, calRG;
     RadioButton RBlvl, RBcal;
     SeekBar rSB;
     Button conBtn;
 
-    String rbtext, rbtextDif;
-    Integer lvl, cal;
+    String rbtext, rbtextDif, prevCategory, prevTime;
+    Integer lvl, cal, prevScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
 
+        final SharedPreferences getLatestSP = getSharedPreferences("PrevScore", MODE_PRIVATE);
+
+        tvPrev = findViewById(R.id.tvPastScore);
         tvTimer = findViewById(R.id.tvTime);
         etTimer = findViewById(R.id.etTimer);
         conBtn = findViewById(R.id.btnCon);
@@ -44,6 +48,16 @@ public class MainActivity extends AppCompatActivity {
         calRG = findViewById(R.id.RBcal);
         rSB = findViewById(R.id.sbRange);
         etRandLimit = findViewById(R.id.etRandLimit);
+
+        prevCategory = getLatestSP.getString("category", "");
+        prevScore = getLatestSP.getInt("score", 0);
+        prevTime = getLatestSP.getString("time", "");
+
+        if (prevTime.equals("") && prevCategory.equals("") && prevScore == 0){
+            tvPrev.setText("Previous Score: No Data Detected Recently");
+        }else{
+            tvPrev.setText("Previous Score\nCategory: " + prevCategory + "\nScore: " + prevScore + "/10\nTime Left: " + prevTime);
+        }
 
         rSB.refreshDrawableState();
 
@@ -77,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (rbtext.equals("Random") && rbtextDif.equals("Random")){
-            Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_LONG).show();
         }
 
         lvlRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -114,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (rbtext.equals("Random") && rbtextDif.equals("Random")){
-                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -129,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 rbtextDif = RBcal.getText().toString();
 
                 if (rbtext.equals("Random") && rbtextDif.equals("Random")){
-                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -198,6 +212,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        SharedPreferences getLatestSP = getSharedPreferences("PrevScore", MODE_PRIVATE);
+
+        prevCategory = getLatestSP.getString("category", "");
+        prevScore = getLatestSP.getInt("score", 0);
+        prevTime = getLatestSP.getString("time", "");
+
+        if (prevTime.equals("") && prevCategory.equals("") && prevScore == 0){
+            tvPrev.setText("Previous Score: No Data Detected Recently");
+        }else{
+            tvPrev.setText("Previous Score\nCategory: " + prevCategory + "\nScore: " + prevScore + "/10\nTime Left: " + prevTime);
+        }
+
         lvl = lvlRG.getCheckedRadioButtonId();
         RBlvl = findViewById(lvl);
         rbtext = RBlvl.getText().toString();
@@ -228,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (rbtext.equals("Random") && rbtextDif.equals("Random")){
-            Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_LONG).show();
         }
 
         calRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -240,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
                 rbtextDif = RBcal.getText().toString();
 
                 if (rbtext.equals("Random") && rbtextDif.equals("Random")){
-                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -280,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (rbtext.equals("Random") && rbtextDif.equals("Random")){
-                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -293,6 +319,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        SharedPreferences getLatestSP = getSharedPreferences("PrevScore", MODE_PRIVATE);
+
+        prevCategory = getLatestSP.getString("category", "");
+        prevScore = getLatestSP.getInt("score", 0);
+        prevTime = getLatestSP.getString("time", "");
+
+        if (prevTime.equals("") && prevCategory.equals("") && prevScore == 0){
+            tvPrev.setText("Previous Score: No Data Detected Recently");
+        }else{
+            tvPrev.setText("Previous Score\nCategory: " + prevCategory + "\nScore: " + prevScore + "/10\nTime Left: " + prevTime);
+        }
+
         lvl = lvlRG.getCheckedRadioButtonId();
         RBlvl = findViewById(lvl);
         rbtext = RBlvl.getText().toString();
@@ -323,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (rbtext.equals("Random") && rbtextDif.equals("Random")){
-            Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_LONG).show();
         }
 
         calRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -335,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
                 rbtextDif = RBcal.getText().toString();
 
                 if (rbtext.equals("Random") && rbtextDif.equals("Random")){
-                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -375,7 +413,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (rbtext.equals("Random") && rbtextDif.equals("Random")){
-                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_LONG).show();
                 }
 
             }
