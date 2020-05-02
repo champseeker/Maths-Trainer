@@ -28,7 +28,7 @@ public class SecondActivity extends AppCompatActivity {
     Button btnSub, btnBack;
     EditText etAns;
 
-    String lvl, method, maxRange, equa, timer, product, category;
+    String lvl, method, maxRange, equa, timer, product, category, sText;
     Integer randNum, randMul, time, randPro, randRand;
     Double answer, ans, sTime;
 
@@ -199,14 +199,12 @@ public class SecondActivity extends AppCompatActivity {
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
                 tvTime.setText(text);
 
-                String sText = String.format(Locale.getDefault(), "%02d hour, %02d min and %02d sec",
+                sText = String.format(Locale.getDefault(), "%02d hour, %02d min and %02d sec",
                         TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
                         TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) -
                                 TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
-                myEdit.putString("time", sText);
-                myEdit.commit();
             }
 
             public void onFinish() {
@@ -221,6 +219,7 @@ public class SecondActivity extends AppCompatActivity {
                 tvTime.setText("Times Up");
                 myEdit.putInt("score", score);
                 myEdit.putString("category", category);
+                myEdit.putString("time", sText);
                 myEdit.commit();
             }
 
@@ -353,6 +352,7 @@ public class SecondActivity extends AppCompatActivity {
                     tvQues.setText("Congratulation, You have completed all 10 Question\nYou can go Back to set a different Level Of Difficulty\nYour total Score is " + score + "/10");
                     myEdit.putInt("score", score);
                     myEdit.putString("category", category);
+                    myEdit.putString("time", sText);
                     myEdit.commit();
                 }
 
