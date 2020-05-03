@@ -220,6 +220,7 @@ public class SecondActivity extends AppCompatActivity {
                 myEdit.putInt("score", score);
                 myEdit.putString("category", category);
                 myEdit.putString("time", sText);
+                myEdit.putString("completion", "Not Completed");
                 myEdit.commit();
             }
 
@@ -353,6 +354,7 @@ public class SecondActivity extends AppCompatActivity {
                     myEdit.putInt("score", score);
                     myEdit.putString("category", category);
                     myEdit.putString("time", sText);
+                    myEdit.putString("completion", "Completed");
                     myEdit.commit();
                 }
 

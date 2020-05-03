@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     SeekBar rSB;
     Button conBtn;
 
-    String rbTextLvl, rbTextCal, prevCategory, prevTime;
+    String rbTextLvl, rbTextCal, prevCategory, prevTime, prevCompletion;
     Integer lvl, cal, prevScore;
 
     @Override
@@ -52,11 +52,12 @@ public class MainActivity extends AppCompatActivity {
         prevCategory = getLatestSP.getString("category", "");
         prevScore = getLatestSP.getInt("score", 0);
         prevTime = getLatestSP.getString("time", "");
+        prevCompletion = getLatestSP.getString("completion", "");
 
         if (prevTime.equals("") && prevCategory.equals("") && prevScore == 0){
             tvPrev.setText("Previous Score: No Data Detected Recently");
         }else{
-            tvPrev.setText("Previous Score\nCategory: " + prevCategory + "\nScore: " + prevScore + "/10\nTime Left: " + prevTime);
+            tvPrev.setText("Previous Score\nCategory: " + prevCategory + "\nScore: " + prevScore + "/10 ( " + prevCompletion + " )\nTime Left: " + prevTime);
         }
 
         rSB.refreshDrawableState();
@@ -442,7 +443,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Toast.makeText(MainActivity.this, "Range is set as 0 - " + sbValue, Toast.LENGTH_SHORT).show();
+
+                if (sbValue == 0){
+                    Toast.makeText(MainActivity.this, "Range cannot be set from 0 to 0", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(MainActivity.this, "Range is set as 0 - " + sbValue, Toast.LENGTH_SHORT).show();
+
+                }
+
             }
         });
 
@@ -542,11 +550,12 @@ public class MainActivity extends AppCompatActivity {
         prevCategory = getLatestSP.getString("category", "");
         prevScore = getLatestSP.getInt("score", 0);
         prevTime = getLatestSP.getString("time", "");
+        prevCompletion = getLatestSP.getString("completion", "");
 
         if (prevTime.equals("") && prevCategory.equals("") && prevScore == 0){
             tvPrev.setText("Previous Score: No Data Detected Recently");
         }else{
-            tvPrev.setText("Previous Score\nCategory: " + prevCategory + "\nScore: " + prevScore + "/10\nTime Left: " + prevTime);
+            tvPrev.setText("Previous Score\nCategory: " + prevCategory + "\nScore: " + prevScore + "/10 ( " + prevCompletion + " )\nTime Left: " + prevTime);
         }
 
         lvl = lvlRG.getCheckedRadioButtonId();
@@ -925,11 +934,12 @@ public class MainActivity extends AppCompatActivity {
         prevCategory = getLatestSP.getString("category", "");
         prevScore = getLatestSP.getInt("score", 0);
         prevTime = getLatestSP.getString("time", "");
+        prevCompletion = getLatestSP.getString("completion", "");
 
         if (prevTime.equals("") && prevCategory.equals("") && prevScore == 0){
             tvPrev.setText("Previous Score: No Data Detected Recently");
         }else{
-            tvPrev.setText("Previous Score\nCategory: " + prevCategory + "\nScore: " + prevScore + "/10\nTime Left: " + prevTime);
+            tvPrev.setText("Previous Score\nCategory: " + prevCategory + "\nScore: " + prevScore + "/10 ( " + prevCompletion + " )\nTime Left: " + prevTime);
         }
 
         lvl = lvlRG.getCheckedRadioButtonId();
