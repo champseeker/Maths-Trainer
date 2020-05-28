@@ -33,7 +33,7 @@ public class WelcomePage extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            Intent intent = new Intent(WelcomePage.this, MainActivity.class);
+            Intent intent = new Intent(WelcomePage.this, ModeActivity.class);
             startActivity(intent);
             WelcomePage.this.finish();
 

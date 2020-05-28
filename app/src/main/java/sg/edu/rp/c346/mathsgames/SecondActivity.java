@@ -28,7 +28,7 @@ public class SecondActivity extends AppCompatActivity {
     Button btnSub, btnBack;
     EditText etAns;
 
-    String lvl, method, maxRange, equa, timer, product, category, sText;
+    String lvl, method, maxRange, equa, timer, product, category, sText, mode;
     Integer randNum, randMul, time, randPro, randRand;
     Double answer, ans, sTime;
 
@@ -67,6 +67,7 @@ public class SecondActivity extends AppCompatActivity {
         method = intentReceived.getStringExtra("Calcu");
         maxRange = intentReceived.getStringExtra("max");
         timer = intentReceived.getStringExtra("timer");
+        mode = intentReceived.getStringExtra("mode");
 
         sTime = Double.parseDouble(timer);
 
@@ -217,6 +218,7 @@ public class SecondActivity extends AppCompatActivity {
                 tvQues.setTypeface(null, Typeface.BOLD);
                 tvQues.setText("Congratulation, You have completed " + (questionNumber - 1) + " Question\nYou can go Back to set a different Level Of Difficulty\nYour total Score is " + score + "/10");
                 tvTime.setText("Times Up");
+                myEdit.putString("mode", mode);
                 myEdit.putInt("score", score);
                 myEdit.putString("category", category);
                 myEdit.putString("time", sText);
@@ -351,6 +353,7 @@ public class SecondActivity extends AppCompatActivity {
                     tvQues.setTextSize(TypedValue.COMPLEX_UNIT_PX, 40);
                     tvQues.setTypeface(null, Typeface.BOLD);
                     tvQues.setText("Congratulation, You have completed all 10 Question\nYou can go Back to set a different Level Of Difficulty\nYour total Score is " + score + "/10");
+                    myEdit.putString("mode", mode);
                     myEdit.putInt("score", score);
                     myEdit.putString("category", category);
                     myEdit.putString("time", sText);

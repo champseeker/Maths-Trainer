@@ -144,74 +144,84 @@
 
             </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="50px"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:textSize="60px"
-                android:textStyle="bold"
-                android:text="Timer ( Minutes ) " />
-
-            <EditText
-                android:id="@+id/etTimer"
-                android:layout_width="400px"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:ems="2"
-                android:inputType="numberDecimal" />
-
-            <TextView
-                android:id="@+id/tvHint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="35px"
-                android:text="Leave it empty for default timer\nMax: 30 Minutes" />
-
-        </LinearLayout>
-
-            <TextView
+            <LinearLayout
+                android:id="@+id/layoutTimer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="100px"
-                android:layout_marginTop="130px"
-                android:layout_marginRight="100px"
                 android:gravity="center"
-                android:text="@string/thrColumn"
-                android:textColor="#000000"
-                android:textSize="60px"
-                android:textStyle="bold" />
-
-            <SeekBar
-                android:id="@+id/sbRange"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:thumbTint="@color/colorPrimaryDark"
-                android:layout_margin="10px"/>
-
-            <TextView
-                android:id="@+id/sbText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="0" />
-
-            <EditText
-                android:id="@+id/etRandLimit"
-                android:layout_width="500px"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="50px"
-                android:ems="10"
-                android:inputType="number" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:textSize="60px"
+                    android:textStyle="bold"
+                    android:text="Timer ( Minutes ) " />
+
+                <EditText
+                    android:id="@+id/etTimer"
+                    android:layout_width="400px"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:ems="2"
+                    android:inputType="numberDecimal" />
+
+                <TextView
+                    android:id="@+id/tvHint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="35px"
+                    android:text="Leave it empty for default timer\nMax: 30 Minutes" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutRange"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvRandom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="100px"
+                    android:layout_marginTop="130px"
+                    android:layout_marginRight="100px"
+                    android:gravity="center"
+                    android:text="@string/thrColumn"
+                    android:textColor="#000000"
+                    android:textSize="60px"
+                    android:textStyle="bold" />
+
+                <SeekBar
+                    android:id="@+id/sbRange"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:thumbTint="@color/colorPrimaryDark"
+                    android:layout_margin="10px"/>
+
+                <TextView
+                    android:id="@+id/sbText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="0" />
+
+                <EditText
+                    android:id="@+id/etRandLimit"
+                    android:layout_width="500px"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="50px"
+                    android:ems="10"
+                    android:inputType="number" />
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btnCon"
