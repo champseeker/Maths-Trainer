@@ -71,116 +71,229 @@ public class SecondActivity extends AppCompatActivity {
 
         sTime = Double.parseDouble(timer);
 
-        randTimer.add(1200000);
-        randTimer.add(900000);
-        randTimer.add(600000);
-        randTimer.add(300000);
-        randRand = new Random().nextInt(4 - 0) + 0;
+        if(mode.equals("Normal")){
 
-        if (method.equals("Random") && lvl.equals("Random")) {
+            randTimer.add(1200000);
+            randTimer.add(900000);
+            randTimer.add(600000);
+            randTimer.add(300000);
+            randRand = new Random().nextInt(4 - 0) + 0;
 
-            time = randTimer.get(randRand);
+            if (method.equals("Random") && lvl.equals("Random")) {
 
-        }else if(sTime == 0){
+                time = randTimer.get(randRand);
 
-            if(lvl.equals("Beginner")){
+            }else if(sTime == 0){
 
-                if (method.equals("Addition")) {
+                if(lvl.equals("Beginner")){
 
-                    time = 1200000;
+                    if (method.equals("Addition")) {
 
-                } else if (method.equals("Subtraction")) {
+                        time = 1200000;
 
-                    time = 1200000;
+                    } else if (method.equals("Subtraction")) {
 
-                } else if (method.equals("Multiplication")) {
+                        time = 1200000;
 
-                    time = 900000;
+                    } else if (method.equals("Multiplication")) {
 
-                } else if (method.equals("Division")) {
+                        time = 900000;
 
-                    time = 900000;
+                    } else if (method.equals("Division")) {
 
-                } else if (method.equals("Random")) {
+                        time = 900000;
 
-                    time = 900000;
+                    } else if (method.equals("Random")) {
 
-                }
+                        time = 900000;
 
-            }else if(lvl.equals("Intermediate")){
+                    }
 
-                if (method.equals("Addition")) {
+                }else if(lvl.equals("Intermediate")){
 
-                    time = 900000;
+                    if (method.equals("Addition")) {
 
-                } else if (method.equals("Subtraction")) {
+                        time = 900000;
 
-                    time = 900000;
+                    } else if (method.equals("Subtraction")) {
 
-                } else if (method.equals("Multiplication")) {
+                        time = 900000;
 
-                    time = 600000;
+                    } else if (method.equals("Multiplication")) {
 
-                } else if (method.equals("Division")) {
+                        time = 600000;
 
-                    time = 600000;
+                    } else if (method.equals("Division")) {
 
-                } else if (method.equals("Random")) {
+                        time = 600000;
 
-                    time = 600000;
+                    } else if (method.equals("Random")) {
 
-                }
+                        time = 600000;
 
-            }else if(lvl.equals("Advanced")){
+                    }
 
-                if (method.equals("Addition")) {
+                }else if(lvl.equals("Advanced")){
 
-                    time = 600000;
+                    if (method.equals("Addition")) {
 
-                } else if (method.equals("Subtraction")) {
+                        time = 600000;
 
-                    time = 600000;
+                    } else if (method.equals("Subtraction")) {
 
-                } else if (method.equals("Multiplication")) {
+                        time = 600000;
 
-                    time = 300000;
+                    } else if (method.equals("Multiplication")) {
 
-                } else if (method.equals("Division")) {
+                        time = 300000;
 
-                    time = 300000;
+                    } else if (method.equals("Division")) {
 
-                } else if (method.equals("Random")) {
+                        time = 300000;
 
-                    time = 300000;
+                    } else if (method.equals("Random")) {
+
+                        time = 300000;
+
+                    }
+
+                }else{
+
+                    if (method.equals("Addition")) {
+
+                        time = 600000;
+
+                    } else if (method.equals("Subtraction")) {
+
+                        time = 600000;
+
+                    } else if (method.equals("Multiplication")) {
+
+                        time = 300000;
+
+                    } else if (method.equals("Division")) {
+
+                        time = 300000;
+
+                    }
 
                 }
 
             }else{
 
-                if (method.equals("Addition")) {
-
-                    time = 600000;
-
-                } else if (method.equals("Subtraction")) {
-
-                    time = 600000;
-
-                } else if (method.equals("Multiplication")) {
-
-                    time = 300000;
-
-                } else if (method.equals("Division")) {
-
-                    time = 300000;
-
-                }
+                sTime = sTime* Double.parseDouble("60000");
+                time = sTime.intValue();
 
             }
 
         }else{
 
-            sTime = sTime* Double.parseDouble("60000");
-            time = sTime.intValue();
+            if (method.equals("Random") && lvl.equals("Random")) {
+
+                time = 1200000;
+
+            }else if(sTime == 0){
+
+                if(lvl.equals("Beginner")){
+
+                    if (method.equals("Addition")) {
+
+                        time = 1200000;
+
+                    } else if (method.equals("Subtraction")) {
+
+                        time = 1200000;
+
+                    } else if (method.equals("Multiplication")) {
+
+                        time = 900000;
+
+                    } else if (method.equals("Division")) {
+
+                        time = 900000;
+
+                    } else if (method.equals("Random")) {
+
+                        time = 900000;
+
+                    }
+
+                }else if(lvl.equals("Intermediate")){
+
+                    if (method.equals("Addition")) {
+
+                        time = 900000;
+
+                    } else if (method.equals("Subtraction")) {
+
+                        time = 900000;
+
+                    } else if (method.equals("Multiplication")) {
+
+                        time = 600000;
+
+                    } else if (method.equals("Division")) {
+
+                        time = 600000;
+
+                    } else if (method.equals("Random")) {
+
+                        time = 600000;
+
+                    }
+
+                }else if(lvl.equals("Advanced")){
+
+                    if (method.equals("Addition")) {
+
+                        time = 600000;
+
+                    } else if (method.equals("Subtraction")) {
+
+                        time = 600000;
+
+                    } else if (method.equals("Multiplication")) {
+
+                        time = 300000;
+
+                    } else if (method.equals("Division")) {
+
+                        time = 300000;
+
+                    } else if (method.equals("Random")) {
+
+                        time = 300000;
+
+                    }
+
+                }else{
+
+                    if (method.equals("Addition")) {
+
+                        time = 600000;
+
+                    } else if (method.equals("Subtraction")) {
+
+                        time = 600000;
+
+                    } else if (method.equals("Multiplication")) {
+
+                        time = 300000;
+
+                    } else if (method.equals("Division")) {
+
+                        time = 300000;
+
+                    }
+
+                }
+
+            }else{
+
+                sTime = sTime* Double.parseDouble("60000");
+                time = sTime.intValue();
+
+            }
 
         }
 

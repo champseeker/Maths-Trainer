@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -22,15 +20,15 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     LinearLayout loTimer, loRange;
-    TextView tvSB, tvTimer, tvPrev;
-    EditText etTimer, etRandLimit;
-    RadioGroup lvlRG, calRG;
-    RadioButton RBlvl, RBcal;
-    SeekBar rSB;
+    TextView tvSB, tvTimer, tvPrev, tvSBDiff;
+    EditText etRandLimit;
+    RadioGroup calRG;
+    RadioButton RBcal;
+    SeekBar rSB, tSB, dSB;
     Button conBtn;
 
-    String mode, rbTextLvl, rbTextCal, prevCategory, prevTime, prevCompletion, timer, rbLvlText, rbCalText, selRange, selMode;
-    Integer lvl, cal, prevScore;
+    String mode, diff, rbTextCal, prevCategory, prevTime, prevCompletion, timer, rbCalText, selRange, selMode, sTime;
+    Integer cal, prevScore, time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +46,14 @@ public class MainActivity extends AppCompatActivity {
         loTimer = findViewById(R.id.layoutTimer);
         loRange = findViewById(R.id.layoutRange);
         tvPrev = findViewById(R.id.tvPastScore);
-        tvTimer = findViewById(R.id.tvTime);
-        etTimer = findViewById(R.id.etTimer);
+        tvTimer = findViewById(R.id.tvTimer);
+        tvSBDiff = findViewById(R.id.tvSBDiff);
         conBtn = findViewById(R.id.btnCon);
         tvSB = findViewById(R.id.sbText);
-        lvlRG = findViewById(R.id.RBlvl);
         calRG = findViewById(R.id.RBcal);
         rSB = findViewById(R.id.sbRange);
+        tSB = findViewById(R.id.sbTimer);
+        dSB = findViewById(R.id.sbDiff);
         etRandLimit = findViewById(R.id.etRandLimit);
 
         selMode = getLatestSP.getString("mode", "");
@@ -70,394 +69,65 @@ public class MainActivity extends AppCompatActivity {
         }
 
         rSB.refreshDrawableState();
+        tSB.refreshDrawableState();
+        dSB.refreshDrawableState();
+        tSB.setMax(30);
 
-        lvl = lvlRG.getCheckedRadioButtonId();
-        RBlvl = findViewById(lvl);
-        rbTextLvl = RBlvl.getText().toString();
+        dSB.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
-        cal = calRG.getCheckedRadioButtonId();
-        RBcal = findViewById(cal);
-        rbTextCal = RBcal.getText().toString();
-
-        Log.i("TAG", "onCreate: lmao " + mode);
-
-        if (mode.equals("Competitive")){
-
-            Log.i("TAG", "onCreate: lmao Comp");
-
-            loTimer.setVisibility(View.GONE);
-            loRange.setVisibility(View.GONE);
-
-            if(rbTextLvl.equals("Beginner")){
-                timer = "0";
-                selRange = "10";
-            }else if(rbTextLvl.equals("Intermediate")){
-                timer = "0";
-                selRange = "15";
-            }else if(rbTextLvl.equals("Advanced")){
-                timer = "0";
-                selRange = "20";
-            }else if(rbTextLvl.equals("Random")){
-                timer = "1200000";
-                selRange = "100";
-            }
-
-        }else{
-
-            Log.i("TAG", "onCreate: lmao Norm");
-
-            if(rbTextLvl.equals("Beginner")){
-                rSB.setVisibility(View.VISIBLE);
-                tvSB.setVisibility(View.VISIBLE);
-                etRandLimit.setVisibility(View.GONE);
-                rSB.setMax(10);
-            }else if(rbTextLvl.equals("Intermediate")){
-                rSB.setVisibility(View.VISIBLE);
-                tvSB.setVisibility(View.VISIBLE);
-                etRandLimit.setVisibility(View.GONE);
-                rSB.setMax(15);
-            }else if(rbTextLvl.equals("Advanced")){
-                rSB.setVisibility(View.VISIBLE);
-                tvSB.setVisibility(View.VISIBLE);
-                etRandLimit.setVisibility(View.GONE);
-                rSB.setMax(20);
-            }else if(rbTextLvl.equals("Random")){
-                rSB.setVisibility(View.GONE);
-                tvSB.setVisibility(View.GONE);
-                etRandLimit.setVisibility(View.VISIBLE);
-            }
-
-        }
-
-        if (rbTextLvl.equals("Random") && rbTextCal.equals("Random")){
-            Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_LONG).show();
-        }else if(rbTextLvl.equals("Beginner")){
-
-            if (rbTextCal.equals("Addition")) {
-
-                Toast.makeText(MainActivity.this, "Default timer is set to 20 Min", Toast.LENGTH_SHORT).show();
-
-            } else if (rbTextCal.equals("Subtraction")) {
-
-                Toast.makeText(MainActivity.this, "Default timer is set to 20 Min", Toast.LENGTH_SHORT).show();
-
-            } else if (rbTextCal.equals("Multiplication")) {
-
-                Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-            } else if (rbTextCal.equals("Division")) {
-
-                Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-            } else if (rbTextCal.equals("Random")) {
-
-                Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-            }
-
-        }else if(rbTextLvl.equals("Intermediate")){
-
-            if (rbTextCal.equals("Addition")) {
-
-                Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-            } else if (rbTextCal.equals("Subtraction")) {
-
-                Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-            } else if (rbTextCal.equals("Multiplication")) {
-
-                Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-            } else if (rbTextCal.equals("Division")) {
-
-                Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-            } else if (rbTextCal.equals("Random")) {
-
-                Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-            }
-
-        }else if(rbTextLvl.equals("Advanced")){
-
-            if (rbTextCal.equals("Addition")) {
-
-                Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-            } else if (rbTextCal.equals("Subtraction")) {
-
-                Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-            } else if (rbTextCal.equals("Multiplication")) {
-
-                Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-            } else if (rbTextCal.equals("Division")) {
-
-                Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-            } else if (rbTextCal.equals("Random")) {
-
-                Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-            }
-
-        }else{
-
-            if (rbTextCal.equals("Addition")) {
-
-                Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-            } else if (rbTextCal.equals("Subtraction")) {
-
-                Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-            } else if (rbTextCal.equals("Multiplication")) {
-
-                Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-            } else if (rbTextCal.equals("Division")) {
-
-                Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-            }
-
-        }
-
-        lvlRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
-                lvl = lvlRG.getCheckedRadioButtonId();
-                RBlvl = findViewById(lvl);
-                rbTextLvl = RBlvl.getText().toString();
-
-                cal = calRG.getCheckedRadioButtonId();
-                RBcal = findViewById(cal);
-                rbTextCal = RBcal.getText().toString();
-
-                if(rbTextLvl.equals("Beginner")){
-                    rSB.setVisibility(View.VISIBLE);
-                    tvSB.setVisibility(View.VISIBLE);
-                    etRandLimit.setVisibility(View.GONE);
+                if (i == 0){
                     rSB.setMax(10);
-                }else if(rbTextLvl.equals("Intermediate")){
-                    rSB.setVisibility(View.VISIBLE);
-                    tvSB.setVisibility(View.VISIBLE);
-                    etRandLimit.setVisibility(View.GONE);
+                    diff = "Beginner";
+                    tvSBDiff.setText("Beginner");
+                }else if(i == 1){
                     rSB.setMax(15);
-                }else if(rbTextLvl.equals("Advanced")){
-                    rSB.setVisibility(View.VISIBLE);
-                    tvSB.setVisibility(View.VISIBLE);
-                    etRandLimit.setVisibility(View.GONE);
+                    diff = "Intermediate";
+                    tvSBDiff.setText("Intermediate");
+                }else if(i == 2){
                     rSB.setMax(20);
-                }else if(rbTextLvl.equals("Random")){
-                    rSB.setVisibility(View.GONE);
-                    tvSB.setVisibility(View.GONE);
-                    etRandLimit.setVisibility(View.VISIBLE);
+                    diff = "Advanced";
+                    tvSBDiff.setText("Advanced");
+                }else if(i == 3){
+                    rSB.setMax(100);
+                    diff = "Random";
+                    tvSBDiff.setText("Random");
                 }
 
-                if (rbTextLvl.equals("Random") && rbTextCal.equals("Random")){
-                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_LONG).show();
-                }else if(rbTextLvl.equals("Beginner")){
+            }
 
-                    if (rbTextCal.equals("Addition")) {
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
-                        Toast.makeText(MainActivity.this, "Default timer is set to 20 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Subtraction")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 20 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Multiplication")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Division")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Random")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                }else if(rbTextLvl.equals("Intermediate")){
-
-                    if (rbTextCal.equals("Addition")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Subtraction")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Multiplication")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Division")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Random")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                }else if(rbTextLvl.equals("Advanced")){
-
-                    if (rbTextCal.equals("Addition")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Subtraction")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Multiplication")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Division")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Random")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                }else{
-
-                    if (rbTextCal.equals("Addition")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Subtraction")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Multiplication")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Division")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                }
-
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
 
-        calRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        tSB.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
-                cal = calRG.getCheckedRadioButtonId();
-                RBcal = findViewById(cal);
-                rbTextCal = RBcal.getText().toString();
+                tvTimer.setText(String.valueOf(i) + " Mins");
+                time = i;
+                timer = String.valueOf(time);
+            }
 
-                if (rbTextLvl.equals("Random") && rbTextCal.equals("Random")){
-                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_LONG).show();
-                }else if(rbTextLvl.equals("Beginner")){
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
-                    if (rbTextCal.equals("Addition")) {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
 
-                        Toast.makeText(MainActivity.this, "Default timer is set to 20 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Subtraction")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 20 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Multiplication")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Division")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Random")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                }else if(rbTextLvl.equals("Intermediate")){
-
-                    if (rbTextCal.equals("Addition")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Subtraction")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Multiplication")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Division")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Random")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                }else if(rbTextLvl.equals("Advanced")){
-
-                    if (rbTextCal.equals("Addition")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Subtraction")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Multiplication")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Division")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Random")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-                    }
-
+                if (time == 0){
+                    Toast.makeText(MainActivity.this, "TIme cannot be 0 Minutes", Toast.LENGTH_SHORT).show();
                 }else{
-
-                    if (rbTextCal.equals("Addition")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Subtraction")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Multiplication")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Division")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-                    }
+                    Toast.makeText(MainActivity.this, "Time is set as " + time + " Minutes", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -492,145 +162,61 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        etTimer.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                Double limitTime;
-
-                try {
-
-                    if (etTimer.getText().toString().equals("")){
-                        Toast.makeText(MainActivity.this, "Default Timer is set", Toast.LENGTH_LONG).show();
-                    }else{
-                        limitTime = Double.parseDouble(etTimer.getText().toString());
-
-                        if (limitTime > 30){
-                            etTimer.setText("30");
-                            Toast.makeText(MainActivity.this, "Maximum of 30 Minutes only", Toast.LENGTH_LONG).show();
-                        }
-
-                    }
-
-                } catch (Exception e) {
-
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        conBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(mode.equals("Normal") && etRandLimit.getVisibility() == View.VISIBLE && etRandLimit.getText().toString().equals("")){
-
-                    Toast.makeText(MainActivity.this, "Please fill in the Range to continue", Toast.LENGTH_SHORT).show();
-
-                }else if (mode.equals("Normal") && tvSB.getVisibility() == View.VISIBLE && tvSB.getText().toString().equals("0")){
-
-                    Toast.makeText(MainActivity.this, "Range cannot be from 0 - 0\nYou are not that dumb  -_-", Toast.LENGTH_SHORT).show();
-
-                }else{
-
-                    lvl = lvlRG.getCheckedRadioButtonId();
-                    RBlvl = findViewById(lvl);
-                    rbLvlText = RBlvl.getText().toString();
-
-                    cal = calRG.getCheckedRadioButtonId();
-                    RBcal = findViewById(cal);
-                    rbCalText = RBcal.getText().toString();
-
-                    if (mode.equals("Normal")){
-                        if (etRandLimit.getVisibility() == View.VISIBLE){
-                            selRange = etRandLimit.getText().toString();
-                        }else{
-                            selRange = tvSB.getText().toString();
-                        }
-                    }
-
-                    if (mode.equals("Normal")){
-                        if ((etTimer.getText().toString()).equals("")){
-                            timer = "0";
-                        }else{
-                            timer = etTimer.getText().toString();
-                        }
-                    }
-
-                    Intent intent = new Intent(getBaseContext(), SecondActivity.class);
-                    intent.putExtra("mode", mode);
-                    intent.putExtra("level", rbLvlText);
-                    intent.putExtra("Calcu", rbCalText);
-                    intent.putExtra("max", selRange);
-                    intent.putExtra("timer", timer);
-                    startActivity(intent);
-
-                }
-
-            }
-        });
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        SharedPreferences getLatestSP = getSharedPreferences("PrevScore", MODE_PRIVATE);
-
-        prevCategory = getLatestSP.getString("category", "");
-        prevScore = getLatestSP.getInt("score", 0);
-        prevTime = getLatestSP.getString("time", "");
-        prevCompletion = getLatestSP.getString("completion", "");
-
-        if (prevTime.equals("") && prevCategory.equals("") && prevScore == 0){
-            tvPrev.setText("Previous Score:\nNo Data Detected Recently");
-        }else{
-            tvPrev.setText("Previous Score ( " + selMode + " ) :\nCategory: " + prevCategory + "\nScore: " + prevScore + "/10 ( " + prevCompletion + " )\nTime Left: " + prevTime);
-        }
-
-        lvl = lvlRG.getCheckedRadioButtonId();
-        RBlvl = findViewById(lvl);
-        rbTextLvl = RBlvl.getText().toString();
+        diff = tvSBDiff.getText().toString();
 
         cal = calRG.getCheckedRadioButtonId();
         RBcal = findViewById(cal);
         rbTextCal = RBcal.getText().toString();
 
-        if(rbTextLvl.equals("Beginner")){
-            rSB.setVisibility(View.VISIBLE);
-            tvSB.setVisibility(View.VISIBLE);
-            etRandLimit.setVisibility(View.GONE);
-            rSB.setMax(10);
-        }else if(rbTextLvl.equals("Intermediate")){
-            rSB.setVisibility(View.VISIBLE);
-            tvSB.setVisibility(View.VISIBLE);
-            etRandLimit.setVisibility(View.GONE);
-            rSB.setMax(15);
-        }else if(rbTextLvl.equals("Advanced")){
-            rSB.setVisibility(View.VISIBLE);
-            tvSB.setVisibility(View.VISIBLE);
-            etRandLimit.setVisibility(View.GONE);
-            rSB.setMax(20);
-        }else if(rbTextLvl.equals("Random")){
-            rSB.setVisibility(View.GONE);
-            tvSB.setVisibility(View.GONE);
-            etRandLimit.setVisibility(View.VISIBLE);
+        if (mode.equals("Competitive")){
+
+            loTimer.setVisibility(View.GONE);
+            loRange.setVisibility(View.GONE);
+
+            if(diff.equals("Beginner")){
+                timer = "0";
+                selRange = "10";
+            }else if(diff.equals("Intermediate")){
+                timer = "0";
+                selRange = "15";
+            }else if(diff.equals("Advanced")){
+                timer = "0";
+                selRange = "20";
+            }else if(diff.equals("Random")){
+                timer = "1200000";
+                selRange = "100";
+            }
+
+        }else{
+
+            if(diff.equals("Beginner")){
+                rSB.setVisibility(View.VISIBLE);
+                tvSB.setVisibility(View.VISIBLE);
+                etRandLimit.setVisibility(View.GONE);
+                rSB.setMax(10);
+            }else if(diff.equals("Intermediate")){
+                rSB.setVisibility(View.VISIBLE);
+                tvSB.setVisibility(View.VISIBLE);
+                etRandLimit.setVisibility(View.GONE);
+                rSB.setMax(15);
+            }else if(diff.equals("Advanced")){
+                rSB.setVisibility(View.VISIBLE);
+                tvSB.setVisibility(View.VISIBLE);
+                etRandLimit.setVisibility(View.GONE);
+                rSB.setMax(20);
+            }else if(diff.equals("Random")){
+                rSB.setVisibility(View.GONE);
+                tvSB.setVisibility(View.GONE);
+                etRandLimit.setVisibility(View.VISIBLE);
+            }
+
         }
 
-        if (rbTextLvl.equals("Random") && rbTextCal.equals("Random")){
+        if (diff.equals("Random") && rbTextCal.equals("Random") && mode.equals("Normal")){
             Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_LONG).show();
-        }else if(rbTextLvl.equals("Beginner")){
+        }else if(diff.equals("Random") && rbTextCal.equals("Random") && mode.equals("Competitive")) {
+            Toast.makeText(MainActivity.this, "Default timer is set to 20 Min", Toast.LENGTH_SHORT).show();
+        }else if(diff.equals("Beginner")){
 
             if (rbTextCal.equals("Addition")) {
 
@@ -654,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-        }else if(rbTextLvl.equals("Intermediate")){
+        }else if(diff.equals("Intermediate")){
 
             if (rbTextCal.equals("Addition")) {
 
@@ -678,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-        }else if(rbTextLvl.equals("Advanced")){
+        }else if(diff.equals("Advanced")){
 
             if (rbTextCal.equals("Addition")) {
 
@@ -728,13 +314,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
 
+                diff = tvSBDiff.getText().toString();
+
                 cal = calRG.getCheckedRadioButtonId();
                 RBcal = findViewById(cal);
                 rbTextCal = RBcal.getText().toString();
 
-                if (rbTextLvl.equals("Random") && rbTextCal.equals("Random")){
+                if (diff.equals("Random") && rbTextCal.equals("Random") && mode.equals("Normal")){
                     Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_LONG).show();
-                }else if(rbTextLvl.equals("Beginner")){
+                }else if(diff.equals("Random") && rbTextCal.equals("Random") && mode.equals("Competitive")) {
+                    Toast.makeText(MainActivity.this, "Default timer is set to 20 Min", Toast.LENGTH_SHORT).show();
+                }else if(diff.equals("Beginner")){
 
                     if (rbTextCal.equals("Addition")) {
 
@@ -758,7 +348,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
 
-                }else if(rbTextLvl.equals("Intermediate")){
+                }else if(diff.equals("Intermediate")){
 
                     if (rbTextCal.equals("Addition")) {
 
@@ -782,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
 
-                }else if(rbTextLvl.equals("Advanced")){
+                }else if(diff.equals("Advanced")){
 
                     if (rbTextCal.equals("Addition")) {
 
@@ -831,42 +421,268 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        lvlRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        conBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(mode.equals("Normal") && etRandLimit.getVisibility() == View.VISIBLE && etRandLimit.getText().toString().equals("")){
+
+                    Toast.makeText(MainActivity.this, "Please fill in the Range to continue", Toast.LENGTH_SHORT).show();
+
+                }else if (mode.equals("Normal") && tvSB.getVisibility() == View.VISIBLE && tvSB.getText().toString().equals("0")){
+
+                    Toast.makeText(MainActivity.this, "Range cannot be from 0 - 0\nYou are not that dumb  -_-", Toast.LENGTH_SHORT).show();
+
+                }else{
+
+                    cal = calRG.getCheckedRadioButtonId();
+                    RBcal = findViewById(cal);
+                    rbCalText = RBcal.getText().toString();
+
+                    if (mode.equals("Normal")){
+                        if (etRandLimit.getVisibility() == View.VISIBLE){
+                            selRange = etRandLimit.getText().toString();
+                        }else{
+                            selRange = tvSB.getText().toString();
+                        }
+                    }
+
+                    if (timer.equals("0")){
+                        sTime = "0";
+                    }else{
+                        sTime = timer;
+                    }
+
+                    Intent intent = new Intent(getBaseContext(), SecondActivity.class);
+                    intent.putExtra("mode", mode);
+                    intent.putExtra("level", diff);
+                    intent.putExtra("Calcu", rbCalText);
+                    intent.putExtra("max", selRange);
+                    intent.putExtra("timer", sTime);
+                    startActivity(intent);
+
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        SharedPreferences getLatestSP = getSharedPreferences("PrevScore", MODE_PRIVATE);
+
+        prevCategory = getLatestSP.getString("category", "");
+        prevScore = getLatestSP.getInt("score", 0);
+        prevTime = getLatestSP.getString("time", "");
+        prevCompletion = getLatestSP.getString("completion", "");
+
+        if (prevTime.equals("") && prevCategory.equals("") && prevScore == 0){
+            tvPrev.setText("Previous Score:\nNo Data Detected Recently");
+        }else{
+            tvPrev.setText("Previous Score ( " + selMode + " ) :\nCategory: " + prevCategory + "\nScore: " + prevScore + "/10 ( " + prevCompletion + " )\nTime Left: " + prevTime);
+        }
+
+        dSB.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                if (i == 0){
+                    rSB.setMax(10);
+                    diff = "Beginner";
+                    tvSBDiff.setText("Beginner");
+                }else if(i == 1){
+                    rSB.setMax(15);
+                    diff = "Intermediate";
+                    tvSBDiff.setText("Intermediate");
+                }else if(i == 2){
+                    rSB.setMax(20);
+                    diff = "Advanced";
+                    tvSBDiff.setText("Advanced");
+                }else if(i == 3){
+                    rSB.setMax(100);
+                    diff = "Random";
+                    tvSBDiff.setText("Random");
+                }
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        tSB.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                tvTimer.setText(String.valueOf(i) + " Mins");
+                time = i;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                if (time == 0){
+                    Toast.makeText(MainActivity.this, "TIme cannot be 0 Minutes", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(MainActivity.this, "Time is set as " + time + " Minutes", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        });
+
+        cal = calRG.getCheckedRadioButtonId();
+        RBcal = findViewById(cal);
+        rbTextCal = RBcal.getText().toString();
+
+        if(diff.equals("Beginner")){
+            rSB.setVisibility(View.VISIBLE);
+            tvSB.setVisibility(View.VISIBLE);
+            etRandLimit.setVisibility(View.GONE);
+            rSB.setMax(10);
+        }else if(diff.equals("Intermediate")){
+            rSB.setVisibility(View.VISIBLE);
+            tvSB.setVisibility(View.VISIBLE);
+            etRandLimit.setVisibility(View.GONE);
+            rSB.setMax(15);
+        }else if(diff.equals("Advanced")){
+            rSB.setVisibility(View.VISIBLE);
+            tvSB.setVisibility(View.VISIBLE);
+            etRandLimit.setVisibility(View.GONE);
+            rSB.setMax(20);
+        }else if(diff.equals("Random")){
+            rSB.setVisibility(View.GONE);
+            tvSB.setVisibility(View.GONE);
+            etRandLimit.setVisibility(View.VISIBLE);
+        }
+
+        if (diff.equals("Random") && rbTextCal.equals("Random") && mode.equals("Normal")){
+            Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_LONG).show();
+        }else if(diff.equals("Random") && rbTextCal.equals("Random") && mode.equals("Competitive")) {
+            Toast.makeText(MainActivity.this, "Default timer is set to 20 Min", Toast.LENGTH_SHORT).show();
+        }else if(diff.equals("Beginner")){
+
+            if (rbTextCal.equals("Addition")) {
+
+                Toast.makeText(MainActivity.this, "Default timer is set to 20 Min", Toast.LENGTH_SHORT).show();
+
+            } else if (rbTextCal.equals("Subtraction")) {
+
+                Toast.makeText(MainActivity.this, "Default timer is set to 20 Min", Toast.LENGTH_SHORT).show();
+
+            } else if (rbTextCal.equals("Multiplication")) {
+
+                Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
+
+            } else if (rbTextCal.equals("Division")) {
+
+                Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
+
+            } else if (rbTextCal.equals("Random")) {
+
+                Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
+
+            }
+
+        }else if(diff.equals("Intermediate")){
+
+            if (rbTextCal.equals("Addition")) {
+
+                Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
+
+            } else if (rbTextCal.equals("Subtraction")) {
+
+                Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
+
+            } else if (rbTextCal.equals("Multiplication")) {
+
+                Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
+
+            } else if (rbTextCal.equals("Division")) {
+
+                Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
+
+            } else if (rbTextCal.equals("Random")) {
+
+                Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
+
+            }
+
+        }else if(diff.equals("Advanced")){
+
+            if (rbTextCal.equals("Addition")) {
+
+                Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
+
+            } else if (rbTextCal.equals("Subtraction")) {
+
+                Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
+
+            } else if (rbTextCal.equals("Multiplication")) {
+
+                Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
+
+            } else if (rbTextCal.equals("Division")) {
+
+                Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
+
+            } else if (rbTextCal.equals("Random")) {
+
+                Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
+
+            }
+
+        }else{
+
+            if (rbTextCal.equals("Addition")) {
+
+                Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
+
+            } else if (rbTextCal.equals("Subtraction")) {
+
+                Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
+
+            } else if (rbTextCal.equals("Multiplication")) {
+
+                Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
+
+            } else if (rbTextCal.equals("Division")) {
+
+                Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
+
+            }
+
+        }
+
+        calRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
 
-                lvl = lvlRG.getCheckedRadioButtonId();
-                RBlvl = findViewById(lvl);
-                rbTextLvl = RBlvl.getText().toString();
+                diff = tvSBDiff.getText().toString();
 
                 cal = calRG.getCheckedRadioButtonId();
                 RBcal = findViewById(cal);
                 rbTextCal = RBcal.getText().toString();
 
-                if(rbTextLvl.equals("Beginner")){
-                    rSB.setVisibility(View.VISIBLE);
-                    tvSB.setVisibility(View.VISIBLE);
-                    etRandLimit.setVisibility(View.GONE);
-                    rSB.setMax(10);
-                }else if(rbTextLvl.equals("Intermediate")){
-                    rSB.setVisibility(View.VISIBLE);
-                    tvSB.setVisibility(View.VISIBLE);
-                    etRandLimit.setVisibility(View.GONE);
-                    rSB.setMax(15);
-                }else if(rbTextLvl.equals("Advanced")){
-                    rSB.setVisibility(View.VISIBLE);
-                    tvSB.setVisibility(View.VISIBLE);
-                    etRandLimit.setVisibility(View.GONE);
-                    rSB.setMax(20);
-                }else if(rbTextLvl.equals("Random")){
-                    rSB.setVisibility(View.GONE);
-                    tvSB.setVisibility(View.GONE);
-                    etRandLimit.setVisibility(View.VISIBLE);
-                }
-
-                if (rbTextLvl.equals("Random") && rbTextCal.equals("Random")){
+                if (diff.equals("Random") && rbTextCal.equals("Random") && mode.equals("Normal")){
                     Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_LONG).show();
-                }else if(rbTextLvl.equals("Beginner")){
+                }else if(diff.equals("Random") && rbTextCal.equals("Random") && mode.equals("Competitive")) {
+                    Toast.makeText(MainActivity.this, "Default timer is set to 20 Min", Toast.LENGTH_SHORT).show();
+                }else if(diff.equals("Beginner")){
 
                     if (rbTextCal.equals("Addition")) {
 
@@ -890,7 +706,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
 
-                }else if(rbTextLvl.equals("Intermediate")){
+                }else if(diff.equals("Intermediate")){
 
                     if (rbTextCal.equals("Addition")) {
 
@@ -914,7 +730,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
 
-                }else if(rbTextLvl.equals("Advanced")){
+                }else if(diff.equals("Advanced")){
 
                     if (rbTextCal.equals("Addition")) {
 
@@ -983,38 +799,96 @@ public class MainActivity extends AppCompatActivity {
             tvPrev.setText("Previous Score ( " + selMode + " ) :\nCategory: " + prevCategory + "\nScore: " + prevScore + "/10 ( " + prevCompletion + " )\nTime Left: " + prevTime);
         }
 
-        lvl = lvlRG.getCheckedRadioButtonId();
-        RBlvl = findViewById(lvl);
-        rbTextLvl = RBlvl.getText().toString();
+        dSB.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                if (i == 0){
+                    rSB.setMax(10);
+                    diff = "Beginner";
+                    tvSBDiff.setText("Beginner");
+                }else if(i == 1){
+                    rSB.setMax(15);
+                    diff = "Intermediate";
+                    tvSBDiff.setText("Intermediate");
+                }else if(i == 2){
+                    rSB.setMax(20);
+                    diff = "Advanced";
+                    tvSBDiff.setText("Advanced");
+                }else if(i == 3){
+                    diff = "Random";
+                    tvSBDiff.setText("Random");
+                    rSB.setMax(100);
+                }
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        tSB.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                tvTimer.setText(String.valueOf(i) + " Mins");
+                time = i;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                if (time == 0){
+                    Toast.makeText(MainActivity.this, "TIme cannot be 0 Minutes", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(MainActivity.this, "Time is set as " + time + " Minutes", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        });
 
         cal = calRG.getCheckedRadioButtonId();
         RBcal = findViewById(cal);
         rbTextCal = RBcal.getText().toString();
 
-        if(rbTextLvl.equals("Beginner")){
+        if(diff.equals("Beginner")){
             rSB.setVisibility(View.VISIBLE);
             tvSB.setVisibility(View.VISIBLE);
             etRandLimit.setVisibility(View.GONE);
             rSB.setMax(10);
-        }else if(rbTextLvl.equals("Intermediate")){
+        }else if(diff.equals("Intermediate")){
             rSB.setVisibility(View.VISIBLE);
             tvSB.setVisibility(View.VISIBLE);
             etRandLimit.setVisibility(View.GONE);
             rSB.setMax(15);
-        }else if(rbTextLvl.equals("Advanced")){
+        }else if(diff.equals("Advanced")){
             rSB.setVisibility(View.VISIBLE);
             tvSB.setVisibility(View.VISIBLE);
             etRandLimit.setVisibility(View.GONE);
             rSB.setMax(20);
-        }else if(rbTextLvl.equals("Random")){
+        }else if(diff.equals("Random")){
             rSB.setVisibility(View.GONE);
             tvSB.setVisibility(View.GONE);
             etRandLimit.setVisibility(View.VISIBLE);
         }
 
-        if (rbTextLvl.equals("Random") && rbTextCal.equals("Random")){
+        if (diff.equals("Random") && rbTextCal.equals("Random") && mode.equals("Normal")){
             Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_LONG).show();
-        }else if(rbTextLvl.equals("Beginner")){
+        }else if(diff.equals("Random") && rbTextCal.equals("Random") && mode.equals("Competitive")) {
+            Toast.makeText(MainActivity.this, "Default timer is set to 20 Min", Toast.LENGTH_SHORT).show();
+        }else if(diff.equals("Beginner")){
 
             if (rbTextCal.equals("Addition")) {
 
@@ -1038,7 +912,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-        }else if(rbTextLvl.equals("Intermediate")){
+        }else if(diff.equals("Intermediate")){
 
             if (rbTextCal.equals("Addition")) {
 
@@ -1062,7 +936,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-        }else if(rbTextLvl.equals("Advanced")){
+        }else if(diff.equals("Advanced")){
 
             if (rbTextCal.equals("Addition")) {
 
@@ -1112,145 +986,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
 
-                cal = calRG.getCheckedRadioButtonId();
-                RBcal = findViewById(cal);
-                rbTextCal = RBcal.getText().toString();
-
-                if (rbTextLvl.equals("Random") && rbTextCal.equals("Random")){
-                    Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_LONG).show();
-                }else if(rbTextLvl.equals("Beginner")){
-
-                    if (rbTextCal.equals("Addition")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 20 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Subtraction")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 20 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Multiplication")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Division")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Random")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                }else if(rbTextLvl.equals("Intermediate")){
-
-                    if (rbTextCal.equals("Addition")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Subtraction")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 15 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Multiplication")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Division")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Random")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                }else if(rbTextLvl.equals("Advanced")){
-
-                    if (rbTextCal.equals("Addition")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Subtraction")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Multiplication")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Division")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Random")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                }else{
-
-                    if (rbTextCal.equals("Addition")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Subtraction")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 10 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Multiplication")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-                    } else if (rbTextCal.equals("Division")) {
-
-                        Toast.makeText(MainActivity.this, "Default timer is set to 5 Min", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                }
-
-            }
-        });
-
-        lvlRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-
-                lvl = lvlRG.getCheckedRadioButtonId();
-                RBlvl = findViewById(lvl);
-                rbTextLvl = RBlvl.getText().toString();
+                diff = tvSBDiff.getText().toString();
 
                 cal = calRG.getCheckedRadioButtonId();
                 RBcal = findViewById(cal);
                 rbTextCal = RBcal.getText().toString();
 
-                if(rbTextLvl.equals("Beginner")){
-                    rSB.setVisibility(View.VISIBLE);
-                    tvSB.setVisibility(View.VISIBLE);
-                    etRandLimit.setVisibility(View.GONE);
-                    rSB.setMax(10);
-                }else if(rbTextLvl.equals("Intermediate")){
-                    rSB.setVisibility(View.VISIBLE);
-                    tvSB.setVisibility(View.VISIBLE);
-                    etRandLimit.setVisibility(View.GONE);
-                    rSB.setMax(15);
-                }else if(rbTextLvl.equals("Advanced")){
-                    rSB.setVisibility(View.VISIBLE);
-                    tvSB.setVisibility(View.VISIBLE);
-                    etRandLimit.setVisibility(View.GONE);
-                    rSB.setMax(20);
-                }else if(rbTextLvl.equals("Random")){
-                    rSB.setVisibility(View.GONE);
-                    tvSB.setVisibility(View.GONE);
-                    etRandLimit.setVisibility(View.VISIBLE);
-                }
-
-                if (rbTextLvl.equals("Random") && rbTextCal.equals("Random")){
+                if (diff.equals("Random") && rbTextCal.equals("Random") && mode.equals("Normal")){
                     Toast.makeText(MainActivity.this, "Random is selected for both Difficulty and Calculation Method. \nYou are in for a big surprise. \nBetter start praying you have good luck today." , Toast.LENGTH_LONG).show();
-                }else if(rbTextLvl.equals("Beginner")){
+                }else if(diff.equals("Random") && rbTextCal.equals("Random") && mode.equals("Competitive")) {
+                    Toast.makeText(MainActivity.this, "Default timer is set to 20 Min", Toast.LENGTH_SHORT).show();
+                }else if(diff.equals("Beginner")){
 
                     if (rbTextCal.equals("Addition")) {
 
@@ -1274,7 +1020,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
 
-                }else if(rbTextLvl.equals("Intermediate")){
+                }else if(diff.equals("Intermediate")){
 
                     if (rbTextCal.equals("Addition")) {
 
@@ -1298,7 +1044,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
 
-                }else if(rbTextLvl.equals("Advanced")){
+                }else if(diff.equals("Advanced")){
 
                     if (rbTextCal.equals("Addition")) {
 

@@ -45,45 +45,22 @@
                 android:gravity="center"
                 android:text="@string/info"/>
 
-            <LinearLayout
+            <SeekBar
+                android:id="@+id/sbDiff"
+                style="@style/Widget.AppCompat.SeekBar.Discrete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:layout_margin="20px"
+                android:max="3"
+                android:progress="0" />
 
-                <RadioGroup
-                    android:id="@+id/RBlvl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="20px">
-
-                    <RadioButton
-                        android:id="@+id/rBegin"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="Beginner" />
-
-                    <RadioButton
-                        android:id="@+id/rInter"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Intermediate" />
-
-                    <RadioButton
-                        android:id="@+id/rAdv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Advanced" />
-
-                    <RadioButton
-                        android:id="@+id/rRan"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Random" />
-                </RadioGroup>
-
-            </LinearLayout>
+            <TextView
+                android:id="@+id/tvSBDiff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="#000000"
+                android:text="Beginner" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -159,15 +136,25 @@
                     android:textColor="#000000"
                     android:textSize="60px"
                     android:textStyle="bold"
+                    android:layout_marginBottom="30px"
                     android:text="Timer ( Minutes ) " />
 
-                <EditText
-                    android:id="@+id/etTimer"
-                    android:layout_width="400px"
+                <SeekBar
+                    android:id="@+id/sbTimer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:thumbTint="@color/colorPrimaryDark"
+                    android:layout_margin="20px"/>
+
+                <TextView
+                    android:id="@+id/tvTimer"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:ems="2"
-                    android:inputType="numberDecimal" />
+                    android:textSize="35px"
+                    android:textColor="#000000"
+                    android:layout_marginBottom="20px"
+                    android:text="0 Min" />
 
                 <TextView
                     android:id="@+id/tvHint"
