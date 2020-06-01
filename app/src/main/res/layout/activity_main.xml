@@ -51,6 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20px"
+                android:thumbTint="#1560bd"
                 android:max="3"
                 android:progress="0" />
 
@@ -143,7 +144,7 @@
                     android:id="@+id/sbTimer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:thumbTint="@color/colorPrimaryDark"
+                    android:thumbTint="#1560bd"
                     android:layout_margin="20px"/>
 
                 <TextView
@@ -189,7 +190,7 @@
                     android:id="@+id/sbRange"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:thumbTint="@color/colorPrimaryDark"
+                    android:thumbTint="#1560bd"
                     android:layout_margin="10px"/>
 
                 <TextView
@@ -219,6 +220,7 @@
                 android:layout_marginLeft="30px"
                 android:layout_marginRight="30px"
                 android:layout_marginBottom="30px"
+                android:background="@drawable/btn_rounded"
                 android:text="Continue" />
 
         </LinearLayout>
