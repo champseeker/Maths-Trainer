@@ -299,7 +299,6 @@ public class SecondActivity extends AppCompatActivity {
 
 
         category = lvl + " - " + method;
-        Log.i("TAG", "onCreate: lmao " + category);
 
         final CountDownTimer timer = new CountDownTimer(time, 1) {
 
