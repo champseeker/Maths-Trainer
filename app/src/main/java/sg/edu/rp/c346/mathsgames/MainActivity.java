@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
             tvPrev.setText("Previous Score ( \" + selMode + \" ) :\nCategory: " + prevCategory + "\nScore: " + prevScore + "/10 ( " + prevCompletion + " )\nTime Left: " + prevTime);
         }
 
+        timer = "0";
+
         rSB.refreshDrawableState();
         tSB.refreshDrawableState();
         dSB.refreshDrawableState();
@@ -502,6 +504,7 @@ public class MainActivity extends AppCompatActivity {
                     }else{
                         sTime = "0";
                     }
+
                     intent.putExtra("mode", mode);
                     intent.putExtra("level", diff);
                     intent.putExtra("Calcu", rbCalText);
